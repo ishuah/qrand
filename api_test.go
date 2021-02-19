@@ -17,6 +17,19 @@ func (m *MockClient) Do(req *http.Request) (*http.Response, error) {
 	return m.MockDo(req)
 }
 
+func setupMockClient(mockResponse string) {
+	r := ioutil.NopCloser(bytes.NewReader([]byte(mockResponse)))
+
+	Client = &MockClient{
+		MockDo: func(*http.Request) (*http.Response, error) {
+			return &http.Response{
+				StatusCode: 200,
+				Body:       r,
+			}, nil
+		},
+	}
+}
+
 func TestAPICallSuccess(t *testing.T) {
 	mockResponse := `{
 			  "type": "string",
@@ -28,17 +41,7 @@ func TestAPICallSuccess(t *testing.T) {
 			  "success": true
 			}`
 
-	r := ioutil.NopCloser(bytes.NewReader([]byte(mockResponse)))
-
-	Client = &MockClient{
-		MockDo: func(*http.Request) (*http.Response, error) {
-			return &http.Response{
-				StatusCode: 200,
-				Body:       r,
-			}, nil
-		},
-	}
-
+	setupMockClient(mockResponse)
 	response, err := Get(1, "hex16", 10)
 
 	require.NoError(t, err)
