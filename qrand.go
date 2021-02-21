@@ -1,51 +1,54 @@
 package qrand
 
-import (
-	"strconv"
+// import (
+// 	"strconv"
+// )
+
+// Generator!
+
+var (
+	qrand Qrand
 )
 
-func Int() (int, error) {
-	response, err := Get(1, "hex16", 6)
+func init() {
+	qrand = Qrand{stream: make(chan float64, 8)}
+	go qrand.Generator()
+}
 
-	if err != nil {
-		return 0, err
+type Qrand struct {
+	stream chan float64
+}
+
+func (q *Qrand) Generator() {
+	for {
+		response, _ := Get(1024, "uint16", 1)
+		for _, value := range response.Data {
+			i, _ := value.(float64)
+			q.stream <- i
+		}
 	}
+	close(q.stream)
+}
 
-	h, _ := response.Data[0].(string)
+func (q *Qrand) Int() int {
+	i := <-q.stream
+	return int(i)
+}
 
-	i, err := strconv.ParseInt(h, 16, 64)
+func (q *Qrand) Byte() byte {
+	b := <-q.stream
+	return byte(b)
+}
 
-	if err != nil {
-		return 0, err
-	}
-
-	return int(i), nil
+func Int() int {
+	i := qrand.Int()
+	return int(i)
 }
 
 func Read(p []byte) (n int, err error) {
-	size := len(p)
-	length := 1
-	if len(p) > 1024 {
-		size = 1024
-		length = len(p) / 1024
-	}
-
-	response, err := Get(length, "hex16", size)
-
-	if err != nil {
-		return
-	}
-
-	var data string
-
-	for _, value := range response.Data {
-		str, _ := value.(string)
-		data += str
-	}
 
 	for n = 0; n < len(p); n++ {
-		val, _ := strconv.ParseInt(data[n*2:(n*2)+2], 16, 64)
-		p[n] = byte(val)
+		p[n] = qrand.Byte()
 	}
 
 	return

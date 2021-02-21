@@ -8,35 +8,48 @@ import (
 
 func TestInt(t *testing.T) {
 	mockResponse := `{
-		  "type": "string",
-		  "length": 1,
-		  "size": 6,
+		  "type": "uint16",
+		  "length": 8,
 		  "data": [
-		    "e984b882190b"
+		    14617,
+		    26696,
+		    12890,
+		    5878,
+		    18541,
+		    38733,
+		    1076,
+		    34074
 		  ],
 		  "success": true
 		}`
 
 	setupMockClient(mockResponse)
-	_, err := Int()
-	require.NoError(t, err)
+	i := Int()
+	assert.Equal(t, i, 14617)
 }
 
 func TestRead(t *testing.T) {
 	mockResponse := `{
-		  "type": "string",
-		  "length": 1,
-		  "size": 32,
-		  "data": [
-		    "218662be8b139f4a38eba4bfe61435913a759bb8af9d3f017574b3ba2f685a34"
-		  ],
-		  "success": true
+		"type": "uint16",
+		"length": 8,
+		"data": [
+		14617,
+		26696,
+		12890,
+		5878,
+		18541,
+		38733,
+		1076,
+		34074
+		],
+		"success": true
 	}`
+
 	setupMockClient(mockResponse)
 
-	key := [32]byte{}
+	key := [8]byte{}
 	n, err := Read(key[:])
 
-	assert.Equal(t, n, 32)
+	assert.Equal(t, n, 8)
 	require.NoError(t, err)
 }
