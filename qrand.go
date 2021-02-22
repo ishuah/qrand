@@ -12,6 +12,7 @@ func New() *Qrand {
 	return &qrand
 }
 
+// Qrand represents a source of quantum random numbers
 type Qrand struct {
 	stream chan float64
 	err    error
