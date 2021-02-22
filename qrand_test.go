@@ -91,6 +91,14 @@ func benchmarkPerm(input int, b *testing.B) {
 	}
 }
 
+func BenchmarkRead(b *testing.B) {
+	q := New()
+	p := [16]byte{}
+	for n := 0; n < b.N; n++ {
+		q.Read(p[:])
+	}
+}
+
 func BenchmarkIntn10(b *testing.B)  { benchmarkIntn(10, b) }
 func BenchmarkIntn100(b *testing.B) { benchmarkIntn(100, b) }
 
