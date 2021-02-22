@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+// New creates a new Qrand instance, starts a random number
+// generator. It always returns a Qrand pointer.
 func New() *Qrand {
 	qrand := Qrand{stream: make(chan float64, 8)}
 	go qrand.generator()
