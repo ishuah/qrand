@@ -72,4 +72,17 @@ func TestQrand(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, len(p), 5)
 	assert.Panics(t, func() { q.Perm(0) }, "Perm did not panic")
+
+	teardownMockClient()
 }
+
+// Benchmarks
+func benchmarkIntn(input int, b *testing.B) {
+	q := New()
+	for n := 0; n < b.N; n++ {
+		q.Intn(input)
+	}
+}
+
+func BenchmarkIntn10(b *testing.B)  { benchmarkIntn(10, b) }
+func BenchmarkIntn100(b *testing.B) { benchmarkIntn(100, b) }

@@ -30,6 +30,10 @@ func setupMockClient(mockResponse string) {
 	}
 }
 
+func teardownMockClient() {
+	Client = &http.Client{}
+}
+
 func TestAPICallSuccess(t *testing.T) {
 	mockResponse := `{
 			  "type": "string",
@@ -46,4 +50,6 @@ func TestAPICallSuccess(t *testing.T) {
 
 	require.NoError(t, err)
 	assert.Equal(t, response.Success, true)
+
+	teardownMockClient()
 }
