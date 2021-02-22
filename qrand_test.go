@@ -84,5 +84,15 @@ func benchmarkIntn(input int, b *testing.B) {
 	}
 }
 
+func benchmarkPerm(input int, b *testing.B) {
+	q := New()
+	for n := 0; n < b.N; n++ {
+		q.Perm(input)
+	}
+}
+
 func BenchmarkIntn10(b *testing.B)  { benchmarkIntn(10, b) }
 func BenchmarkIntn100(b *testing.B) { benchmarkIntn(100, b) }
+
+func BenchmarkPerm10(b *testing.B)  { benchmarkPerm(10, b) }
+func BenchmarkPerm100(b *testing.B) { benchmarkPerm(100, b) }
