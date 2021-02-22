@@ -55,3 +55,17 @@ func main() {
 }
 
 ```
+
+### Benchmarks
+```
+goos: linux
+goarch: amd64
+pkg: github.com/ishuah/qrand
+BenchmarkRead-8      	      84	  19316313 ns/op
+BenchmarkIntn10-8    	    1268	   1280759 ns/op
+BenchmarkIntn100-8   	    1270	   1276469 ns/op
+BenchmarkPerm10-8    	     121	  13413403 ns/op
+BenchmarkPerm100-8   	      13	 124809965 ns/op
+PASS
+ok  	github.com/ishuah/qrand	65.249s
+```
