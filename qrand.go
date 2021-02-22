@@ -46,6 +46,7 @@ func (q *Qrand) generator() {
 	defer close(q.stream)
 }
 
+// Int returns a non-negative quantum random int
 func (q *Qrand) Int() (int, error) {
 	if q.err != nil {
 		return 0, q.err
@@ -55,6 +56,7 @@ func (q *Qrand) Int() (int, error) {
 	return int(i), nil
 }
 
+// Intn returns a non-negative quantum random int in [0,n)
 func (q *Qrand) Intn(n int) (int, error) {
 	if n <= 0 {
 		panic("Invalid argument to Intn")
@@ -78,6 +80,7 @@ func (q *Qrand) Intn(n int) (int, error) {
 	return int(i) % n, nil
 }
 
+// Perm returns a slice of n ints, a quantum random permutation of the integers [0,n)
 func (q *Qrand) Perm(n int) ([]int, error) {
 	if n <= 0 {
 		panic("Invalid argument to Perm")
@@ -95,6 +98,7 @@ func (q *Qrand) Perm(n int) ([]int, error) {
 	return m, nil
 }
 
+// Byte returns a quantum random byte
 func (q *Qrand) Byte() (byte, error) {
 	if q.err != nil {
 		return byte(0), q.err
@@ -104,6 +108,8 @@ func (q *Qrand) Byte() (byte, error) {
 	return byte(b), nil
 }
 
+// Read writes len(p) quantum random bytes into p.
+// It returns number of bytes written into p and error.
 func (q *Qrand) Read(p []byte) (n int, err error) {
 
 	for n = 0; n < len(p); n++ {
