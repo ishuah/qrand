@@ -6,50 +6,42 @@ import (
 	"testing"
 )
 
-func TestInt(t *testing.T) {
+func TestQrand(t *testing.T) {
 	mockResponse := `{
 		  "type": "uint16",
-		  "length": 8,
+		  "length": 16,
 		  "data": [
-		    14617,
-		    26696,
-		    12890,
-		    5878,
-		    18541,
-		    38733,
-		    1076,
-		    34074
+		    19557,
+		    1850,
+		    3173,
+		    37261,
+		    23540,
+		    52245,
+		    26620,
+		    1346,
+		    17192,
+		    30584,
+		    58129,
+		    8559,
+		    57096,
+		    31736,
+		    60568,
+		    7818
 		  ],
 		  "success": true
 		}`
-
 	setupMockClient(mockResponse)
-	i := Int()
-	assert.Equal(t, i, 14617)
-}
 
-func TestRead(t *testing.T) {
-	mockResponse := `{
-		"type": "uint16",
-		"length": 8,
-		"data": [
-		14617,
-		26696,
-		12890,
-		5878,
-		18541,
-		38733,
-		1076,
-		34074
-		],
-		"success": true
-	}`
-
-	setupMockClient(mockResponse)
+	q := New()
+	_, err := q.Int()
+	require.NoError(t, err)
 
 	key := [8]byte{}
-	n, err := Read(key[:])
+	n, err := q.Read(key[:])
 
 	assert.Equal(t, n, 8)
+	require.NoError(t, err)
+
+	_, err = q.Intn(60000)
 	require.NoError(t, err)
 }
