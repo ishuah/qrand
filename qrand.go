@@ -1,7 +1,6 @@
 package qrand
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -57,18 +56,33 @@ func (q *Qrand) Int() (int, error) {
 }
 
 func (q *Qrand) Intn(n int) (int, error) {
+	if n <= 0 {
+		panic("Invalid argument to Intn")
+	}
 	if q.err != nil {
 		return 0, q.err
 	}
 
-	i := <-q.stream
-	for int(i) > n {
+	var i float64
+
+	if n&(n-1) == 0 {
+		i = <-q.stream
+		return int(i) & (n - 1), nil
+	}
+	max := int32((1 << 31) - 1 - (1<<31)%uint32(n))
+	i = <-q.stream
+	for int32(i) > max {
 		i = <-q.stream
 	}
-	return int(i), nil
+
+	return int(i) % n, nil
 }
 
 func (q *Qrand) Perm(n int) ([]int, error) {
+	if n <= 0 {
+		panic("Invalid argument to Perm")
+	}
+
 	m := make([]int, n)
 	for j := 0; j < n; {
 		i, err := q.Intn(n)
@@ -77,7 +91,6 @@ func (q *Qrand) Perm(n int) ([]int, error) {
 		}
 		m[j] = int(i)
 		j++
-		fmt.Println(m)
 	}
 	return m, nil
 }
