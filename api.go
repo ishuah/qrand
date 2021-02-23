@@ -32,8 +32,8 @@ type Response struct {
 }
 
 // Get makes a formatted GET request with the parameters supplied
-func Get(length int) (jsonResponse Response, err error) {
-	URLWithParams := fmt.Sprintf("%s?length=%v&type=%v", URL, length, "uint8")
+func Get(length int, dataType string, size int) (jsonResponse Response, err error) {
+	URLWithParams := fmt.Sprintf("%s?length=%v&type=%v&size=%v", URL, length, dataType, size)
 
 	request, err := http.NewRequest(http.MethodGet, URLWithParams, nil)
 	if err != nil {

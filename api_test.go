@@ -47,7 +47,7 @@ func TestAPICallSuccess(t *testing.T) {
 			}`
 
 	setupMockClient(mockResponse, 200, nil)
-	response, err := Get(1)
+	response, err := Get(1, "hex16", 32)
 
 	require.NoError(t, err)
 	assert.Equal(t, response.Success, true)
