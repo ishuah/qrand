@@ -2,11 +2,12 @@ package qrand
 
 import (
 	"bytes"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 type MockClient struct {
@@ -17,15 +18,15 @@ func (m *MockClient) Do(req *http.Request) (*http.Response, error) {
 	return m.MockDo(req)
 }
 
-func setupMockClient(mockResponse string) {
+func setupMockClient(mockResponse string, statusCode int, err error) {
 	r := ioutil.NopCloser(bytes.NewReader([]byte(mockResponse)))
 
 	Client = &MockClient{
 		MockDo: func(*http.Request) (*http.Response, error) {
 			return &http.Response{
-				StatusCode: 200,
+				StatusCode: statusCode,
 				Body:       r,
-			}, nil
+			}, err
 		},
 	}
 }
@@ -45,7 +46,7 @@ func TestAPICallSuccess(t *testing.T) {
 			  "success": true
 			}`
 
-	setupMockClient(mockResponse)
+	setupMockClient(mockResponse, 200, nil)
 	response, err := Get(1, "hex16", 10)
 
 	require.NoError(t, err)
