@@ -3,14 +3,14 @@
 [![GoDoc](https://pkg.go.dev/badge/github.com/ishuah/qrand)](https://pkg.go.dev/github.com/ishuah/qrand)
 
 This package presents a client for the [QRNG@ANU JSON API](https://qrng.anu.edu.au/contact/api-documentation/).
-Qrand exposes one function, Read(p []byte) that writes len(p) bytes into p. You can use this function to seed mature random number generator packages in Go.
+Qrand exposes one function, `qrand.Read(p []byte)` that writes `len(p)` bytes into `p`. You can use this function to seed mature random number generator packages like `math/rand` and [`frand`](https://github.com/lukechampine/frand).
 
 ### Install
 `go get github.com/ishuah/qrand`
 
 ### Usage
 
-The following example demonstrates how to use qrand.Read(p []byte) to seed math/rand.
+The following example demonstrates how to use `qrand.Read(p []byte)` to seed math/rand.
 
 ```go
 package main
