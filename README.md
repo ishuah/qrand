@@ -2,7 +2,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/ishuah/qrand)](https://goreportcard.com/badge/github.com/ishuah/qrand)
 [![GoDoc](https://pkg.go.dev/badge/github.com/ishuah/qrand)](https://pkg.go.dev/github.com/ishuah/qrand)
 
-Package qrand implements a quantum random number generator using the [QRNG@ANU JSON API](https://qrng.anu.edu.au/contact/api-documentation/).
+This package presents a client for the [QRNG@ANU JSON API](https://qrng.anu.edu.au/contact/api-documentation/).
 
 ### Install
 `go get github.com/ishuah/qrand`
@@ -54,4 +54,18 @@ func main() {
 
 }
 
+```
+
+### Benchmarks
+```
+goos: linux
+goarch: amd64
+pkg: github.com/ishuah/qrand
+BenchmarkRead-8      	      84	  19316313 ns/op
+BenchmarkIntn10-8    	    1268	   1280759 ns/op
+BenchmarkIntn100-8   	    1270	   1276469 ns/op
+BenchmarkPerm10-8    	     121	  13413403 ns/op
+BenchmarkPerm100-8   	      13	 124809965 ns/op
+PASS
+ok  	github.com/ishuah/qrand	65.249s
 ```
